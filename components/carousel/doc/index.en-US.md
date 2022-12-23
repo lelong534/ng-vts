@@ -2,6 +2,8 @@
 category: Components
 type: Data Display
 title: Carousel
+cols: 1
+order: 18
 cover: https://gw.alipayobjects.com/zos/antfincdn/%24C9tmj978R/Carousel.svg
 ---
 

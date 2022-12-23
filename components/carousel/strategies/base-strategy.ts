@@ -57,6 +57,7 @@ export abstract class VtsCarouselBaseStrategy<T = VtsSafeAny> {
     if (this.platform.isBrowser) {
       const rect = carousel.el.getBoundingClientRect();
       this.unitWidth = rect.width;
+      //this.unitWidth = rect.width / 3;
       this.unitHeight = rect.height;
     } else {
       // Since we cannot call getBoundingClientRect in server, we just hide all items except for the first one.

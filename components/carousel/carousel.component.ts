@@ -62,6 +62,10 @@ const VTS_CONFIG_MODULE_NAME: VtsConfigKey = 'carousel';
       class="slick-initialized slick-slider"
       [class.slick-vertical]="vtsDotPosition === 'left' || vtsDotPosition === 'right'"
     >
+      <ng-container *ngIf="vtsNavigation">
+        <div class="slick-button-prev" (click)="pre()"></div>
+        <div class="slick-button-next" (click)="next()"></div>
+      </ng-container>
       <div
         #slickList
         class="slick-list"
@@ -125,10 +129,11 @@ export class VtsCarouselComponent
   @Input() vtsDotRender?: TemplateRef<{ $implicit: number }>;
   @Input() @WithConfig() vtsEffect: VtsCarouselEffects = 'scrollx';
   @Input() @WithConfig() @InputBoolean() vtsEnableSwipe: boolean = true;
-  @Input() @WithConfig() @InputBoolean() vtsDots: boolean = true;
+  @Input() @WithConfig() @InputBoolean() vtsDots: boolean = false;
   @Input() @WithConfig() @InputBoolean() vtsAutoPlay: boolean = false;
   @Input() @WithConfig() @InputNumber() vtsAutoPlaySpeed: number = 3000;
   @Input() @InputNumber() vtsTransitionSpeed = 500;
+  @Input() @WithConfig() @InputBoolean() vtsNavigation: boolean = false;
 
   /**
    * this property is passed directly to an VtsCarouselBaseStrategy

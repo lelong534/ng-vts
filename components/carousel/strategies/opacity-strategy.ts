@@ -15,6 +15,7 @@ export class VtsCarouselOpacityStrategy extends VtsCarouselBaseStrategy {
     super.withCarouselContents(contents);
 
     if (this.contents) {
+      //this.slickTrackEl.style.width = `${this.length * this.unitWidth * 3}px`;
       this.slickTrackEl.style.width = `${this.length * this.unitWidth}px`;
 
       this.contents.forEach((content: VtsCarouselContentDirective, i: number) => {
