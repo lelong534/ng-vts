@@ -49,8 +49,12 @@ const VTS_CONFIG_MODULE_NAME: VtsConfigKey = 'alert';
       [@slideAlertMotion]
       (@slideAlertMotion.done)="onFadeAnimationDone()"
     >
-      <ng-container *ngIf="vtsShowIcon">
-        <i vts-icon class="vts-alert-icon" [vtsType]="vtsIconType || inferredIconType"></i>
+      <ng-container *ngIf="vtsShowIcon" [ngSwitch]="vtsType">
+        <i *ngSwitchCase="'success'" class="vts-alert-icon" vts-icon vtsType="CheckCircle"></i>
+        <i *ngSwitchCase="'info'" class="vts-alert-icon" vts-icon vtsType="info"></i>
+        <i *ngSwitchCase="'warning'" class="vts-alert-icon" vts-icon vtsType="Warning"></i>
+        <i *ngSwitchCase="'error'" class="vts-alert-icon" vts-icon vtsType="Close"></i>
+        <i *ngSwitchDefault class="vts-alert-icon" vts-icon [vtsType]="vtsIconType || inferredIconType"></i>
       </ng-container>
       <div class="vts-alert-content" *ngIf="vtsMessage || vtsDescription">
         <span class="vts-alert-message" *ngIf="vtsMessage">
@@ -94,7 +98,7 @@ export class VtsAlertComponent implements OnChanges, OnDestroy, OnInit {
   static ngAcceptInputType_vtsNoAnimation: BooleanInput;
 
   @Input() vtsCloseText: string | TemplateRef<void> | null = null;
-  @Input() vtsIconType: string | null = null;
+  @Input() vtsIconType: string | null = '';
   @Input() vtsMessage: string | TemplateRef<void> | null = null;
   @Input() vtsDescription: string | TemplateRef<void> | null = null;
   @Input() vtsType: 'success' | 'info' | 'warning' | 'error' = 'info';

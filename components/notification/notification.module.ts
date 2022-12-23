@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { VtsOutletModule } from '@ui-vts/ng-vts/core/outlet';
 import { VtsIconModule } from '@ui-vts/ng-vts/icon';
+import { VtsAlertModule } from '../alert';
 import { VtsNotificationContainerComponent } from './notification-container.component';
 import { VtsNotificationComponent } from './notification.component';
 import { VtsNotificationServiceModule } from './notification.service.module';
@@ -20,7 +21,8 @@ import { VtsNotificationServiceModule } from './notification.service.module';
     OverlayModule,
     VtsIconModule,
     VtsOutletModule,
-    VtsNotificationServiceModule
+    VtsNotificationServiceModule,
+    VtsAlertModule
   ],
   declarations: [VtsNotificationComponent, VtsNotificationContainerComponent],
   entryComponents: [VtsNotificationContainerComponent]

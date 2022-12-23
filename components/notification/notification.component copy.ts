@@ -25,7 +25,7 @@ import { VtsNotificationData } from './typings';
   animations: [notificationMotion],
   template: `
     <div
-      class="vts-toast vts-notification-notice-closable"
+      class="vts-notification-notice vts-notification-notice-closable"
       [ngStyle]="instance.options?.vtsStyle || null"
       [ngClass]="instance.options?.vtsClass || ''"
       [@notificationMotion]="state"
@@ -34,12 +34,45 @@ import { VtsNotificationData } from './typings';
       (mouseenter)="onEnter()"
       (mouseleave)="onLeave()"
     >
-      <ng-container [ngSwitch]="instance.type" *ngIf="!instance.template">
-        <vts-alert *ngSwitchCase="'success'" vtsType="success" [vtsMessage]="instance.title" [vtsDescription]="instance.content" vtsShowIcon></vts-alert>
-        <vts-alert *ngSwitchCase="'info'" vtsType="info" [vtsMessage]="instance.title" [vtsDescription]="instance.content" vtsShowIcon></vts-alert>
-        <vts-alert *ngSwitchCase="'warning'" vtsType="warning" [vtsMessage]="instance.title" [vtsDescription]="instance.content" vtsShowIcon></vts-alert>
-        <vts-alert *ngSwitchCase="'error'" vtsType="error" [vtsMessage]="instance.title" [vtsDescription]="instance.content" vtsShowIcon></vts-alert>
-      </ng-container>
+      <div *ngIf="!instance.template" class="vts-notification-notice-content">
+        <div
+          class="vts-notification-notice-content"
+          [ngClass]="{
+            'vts-notification-notice-with-icon': instance.type !== 'blank'
+          }"
+        >
+          <div [class.vts-notification-notice-with-icon]="instance.type !== 'blank'">
+            <ng-container [ngSwitch]="instance.type">
+              <i
+                *ngSwitchCase="'success'"
+                vts-icon
+                vtsType="check-circle"
+                class="vts-notification-notice-icon vts-notification-notice-icon-success"
+              ></i>
+              <i
+                *ngSwitchCase="'info'"
+                vts-icon
+                vtsType="info-circle"
+                class="vts-notification-notice-icon vts-notification-notice-icon-info"
+              ></i>
+              <i
+                *ngSwitchCase="'warning'"
+                vts-icon
+                vtsType="exclamation-circle"
+                class="vts-notification-notice-icon vts-notification-notice-icon-warning"
+              ></i>
+              <i
+                *ngSwitchCase="'error'"
+                vts-icon
+                vtsType="Close"
+                class="vts-notification-notice-icon vts-notification-notice-icon-error"
+              ></i>
+            </ng-container>
+            <div class="vts-notification-notice-message" [innerHTML]="instance.title"></div>
+            <div class="vts-notification-notice-description" [innerHTML]="instance.content"></div>
+          </div>
+        </div>
+      </div>
       <ng-template
         [ngIf]="instance.template"
         [ngTemplateOutlet]="instance.template!"

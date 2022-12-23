@@ -31,6 +31,7 @@ export interface BreadcrumbOption {
   label: string;
   params: Params;
   url: string;
+  icon?: string
 }
 
 @Component({
@@ -41,7 +42,13 @@ export interface BreadcrumbOption {
   preserveWhitespaces: false,
   template: `
     <ng-content></ng-content>
-    <ng-container *ngIf="vtsAutoGenerate && breadcrumbs.length">
+    <ng-container *ngIf="(vtsAutoGenerate && breadcrumbs.length) || breadcrumbs.length">
+      <vts-breadcrumb-item *ngIf="home">
+        <i vts-icon *ngIf="home.icon" [vtsType]="home.icon"></i>
+        <a [attr.href]="home.url" (click)="navigate(home.url, $event)">
+          {{ home.label }}
+        </a>
+      </vts-breadcrumb-item>
       <vts-breadcrumb-item *ngFor="let breadcrumb of breadcrumbs">
         <a [attr.href]="breadcrumb.url" (click)="navigate(breadcrumb.url, $event)">
           {{ breadcrumb.label }}
@@ -57,8 +64,9 @@ export class VtsBreadCrumbComponent implements OnInit, OnDestroy {
   @Input() vtsSeparator: string | TemplateRef<void> | null = '/';
   @Input() vtsRouteLabel: string = 'breadcrumb';
   @Input() vtsRouteLabelFn: (label: string) => string = label => label;
-
-  breadcrumbs: BreadcrumbOption[] = [];
+  
+  @Input() breadcrumbs: BreadcrumbOption[] = [];
+  @Input() home: BreadcrumbOption = {label: '', params: {}, url: ''};
   dir: Direction = 'ltr';
 
   private destroy$ = new Subject<void>();

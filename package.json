@@ -24,7 +24,7 @@
     "lint": "tslint --project components/tsconfig.lib.json -c tslint.json"
   },
   "dependencies": {
-    "@ui-vts/ng-vts": "file:components",
+    "@ui-vts/ng-vts": "../ui-vts-theme",
     "ngx-hover-preload": "0.0.3"
   },
   "devDependencies": {
