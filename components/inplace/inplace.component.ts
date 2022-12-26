@@ -23,8 +23,8 @@ export class VtsTemplate {
     exportAs: 'vtsInplaceComponent',
     // styleUrls: ['./inplace.css'],
     template: `
-        <div [ngClass]="{'vts-inplace': true, 'vts-inplace-closable': closable }" [ngStyle]="style" [class]="styleClass">
-            <div class="vts-inplace-display" (click)="onActivateClick($event)" (keydown)="onKeydown($event)" [ngClass]="{ 'vts-disabled': disabled }" *ngIf="!active">
+        <div [ngClass]="{'vts-inplace': true }" [ngStyle]="style" [class]="styleClass">
+            <div class="vts-inplace-display" (click)="onActivateClick($event)" (keydown)="onKeydown($event)" *ngIf="!active">
                 <ng-content select="[vtsInplaceDisplay]"></ng-content>
                 <ng-container *ngTemplateOutlet="displayTemplate"></ng-container>
             </div>
@@ -39,7 +39,7 @@ export class VtsTemplate {
 export class VtsInplaceComponent implements AfterContentInit {
     @Input() active: boolean = false;
 
-    @Input() closable: boolean = false;
+    @Input() closable: boolean = true;
 
     @Input() disabled: boolean = true;
 
@@ -48,8 +48,6 @@ export class VtsInplaceComponent implements AfterContentInit {
     @Input() style: any;
 
     @Input() styleClass: string = '';
-
-    @Input() closeIcon: string = 'close';
 
     @ContentChildren(VtsTemplate) templates!: QueryList<any>;
 
