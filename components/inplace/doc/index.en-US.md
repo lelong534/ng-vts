@@ -1,9 +1,9 @@
 ---
 category: Components
 type: Components
-title: Textfield
+title: Inplace
 cols: 1
-order: 2
+order: 18
 cover: https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg
 ---
 

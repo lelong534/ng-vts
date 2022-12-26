@@ -1,0 +1,4 @@
+import { VtsInplaceModule } from '@ui-vts/ng-vts/inplace'
+
+
+export const moduleList = [ VtsInplaceModule];

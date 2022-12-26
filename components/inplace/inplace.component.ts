@@ -1,6 +1,5 @@
-import { NgModule, Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef, AfterContentInit, TemplateRef, QueryList, ContentChildren, Directive } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef, AfterContentInit, TemplateRef, QueryList, ContentChildren, Directive } from '@angular/core';
 
-import { VtsButtonModule } from '@ui-vts/ng-vts/button';
 
 @Directive({
     selector: '[vtsTemplate]',
@@ -32,7 +31,7 @@ export class VtsTemplate {
             <div class="vts-inplace-content" *ngIf="active">
                 <ng-content select="[vtsInplaceContent]"></ng-content>
                 <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
-                <button vts-button vtsType="secondary" (click)="onDeactivateClick($event)" *ngIf="closable"></button>
+                <button vts-button vtsType="primary" (click)="onDeactivateClick($event)" *ngIf="closable"><i vts-icon vtsType="Close"></i></button>
             </div>
         </div>
     `,
@@ -60,9 +59,9 @@ export class VtsInplaceComponent implements AfterContentInit {
 
     hover: boolean = true;
 
-    displayTemplate: TemplateRef<any> | undefined;
+    displayTemplate: TemplateRef<any> | null = null;
 
-    contentTemplate: TemplateRef<any> | undefined;
+    contentTemplate: TemplateRef<any> | null = null;
 
     constructor(public cd: ChangeDetectorRef) {}
 
@@ -106,7 +105,7 @@ export class VtsInplaceComponent implements AfterContentInit {
     }
 
     onKeydown(event: KeyboardEvent) {
-        if (event.which === 13) {
+        if (event.key === 'ENTER') {
             this.activate(event);
             event.preventDefault();
         }
