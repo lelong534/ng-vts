@@ -20,6 +20,8 @@ import {
 
 export interface VtsConfig {
   affix?: AffixConfig;
+  accordion?: AccordionConfig;
+  accordionPanel?: AccordionPanelConfig;
   select?: SelectConfig;
   alert?: AlertConfig;
   anchor?: AnchorConfig;
@@ -142,7 +144,16 @@ export interface CollapseConfig {
   vtsGhost?: boolean;
 }
 
+export interface AccordionConfig {
+  vtsAccordion?: boolean;
+}
+
 export interface CollapsePanelConfig {
+  vtsShowArrow?: boolean;
+}
+
+
+export interface AccordionPanelConfig {
   vtsShowArrow?: boolean;
 }
 

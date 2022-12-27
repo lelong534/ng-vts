@@ -164,7 +164,7 @@ export class VtsDemoModalServiceComponent {
         },
         {
           label: 'async load',
-          type: 'dashed',
+          type: 'primary',
           onClick: () => new Promise(resolve => setTimeout(resolve, 2000))
         }
       ]
