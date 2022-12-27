@@ -6,12 +6,6 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[vts-result-icon]',
-  exportAs: 'vtsResultIcon'
-})
-export class VtsResultIconDirective {}
-
-@Directive({
   selector: 'div[vts-result-title]',
   exportAs: 'vtsResultTitle',
   host: {
@@ -30,6 +24,12 @@ export class VtsResultTitleDirective {}
 export class VtsResultSubtitleDirective {}
 
 @Directive({
+  selector: 'i[vts-result-icon], div[vts-result-icon]',
+  exportAs: 'vtsResultIcon'
+})
+export class VtsResultIconDirective {}
+
+@Directive({
   selector: 'div[vts-result-content]',
   exportAs: 'vtsResultContent',
   host: {
@@ -39,7 +39,10 @@ export class VtsResultSubtitleDirective {}
 export class VtsResultContentDirective {}
 
 @Directive({
-  selector: 'div[vts-result-action]',
-  exportAs: 'vtsResultAction'
+  selector: 'div[vts-result-extra]',
+  exportAs: 'vtsResultExtra',
+  host: {
+    class: 'vts-result-extra'
+  }
 })
-export class VtsResultActionDirective {}
+export class VtsResultExtraDirective {}

@@ -10,31 +10,31 @@ import {
 @Component({
   selector: 'vts-demo-skeleton-element',
   template: `
-    <vts-space>
-      <div vts-space-item>
+    <vts-space vtsSize="middle">
+      <vts-space-item>
         <vts-skeleton-element
           vtsType="button"
           [vtsActive]="elementActive"
           [vtsSize]="elementSize"
           [vtsShape]="buttonShape"
         ></vts-skeleton-element>
-      </div>
-      <div vts-space-item>
+      </vts-space-item>
+      <vts-space-item>
         <vts-skeleton-element
           vtsType="avatar"
           [vtsActive]="elementActive"
           [vtsSize]="elementSize"
           [vtsShape]="avatarShape"
         ></vts-skeleton-element>
-      </div>
-      <div vts-space-item>
+      </vts-space-item>
+      <vts-space-item>
         <vts-skeleton-element
           vtsType="input"
           [vtsActive]="elementActive"
           [vtsSize]="elementSize"
           style="width:200px"
         ></vts-skeleton-element>
-      </div>
+      </vts-space-item>
     </vts-space>
     <br />
     <br />

@@ -16,10 +16,14 @@ import {
   TemplateRef
 } from '@angular/core';
 import { VtsConfigKey, VtsConfigService } from '@ui-vts/ng-vts/core/config';
+import { warnDeprecation } from '@ui-vts/ng-vts/core/logger';
 import { BooleanInput, VtsSafeAny } from '@ui-vts/ng-vts/core/types';
 import { InputBoolean } from '@ui-vts/ng-vts/core/util';
 
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { VtsSpaceItemLegacyComponent } from './space-item.component';
 import { VtsSpaceItemDirective } from './space-item.directive';
 import { VtsSpaceAlign, VtsSpaceDirection, VtsSpaceJustify, VtsSpaceType } from './types';
 
@@ -102,9 +106,16 @@ export class VtsSpaceComponent implements OnChanges, OnDestroy, AfterContentInit
   @Input() vtsJustify?: VtsSpaceJustify;
   @Input() vtsSplit: TemplateRef<{ $implicit: number }> | null = null;
   @Input() @InputBoolean() vtsWrap: boolean = false;
+  // @Input() @WithConfig() vtsSize: VtsSpaceSize = 'sm';
   @Input() vtsSize?: number;
   @Input() vtsPreset: string | number | undefined;
 
+  /**
+   * @deprecated VtsSpaceItemLegacyComponent will be removed on 12.0.0, use VtsSpaceItemDirective instead.
+   * @breaking-change 12.0.0
+   */
+  @ContentChildren(VtsSpaceItemLegacyComponent)
+  vtsSpaceItemComponents!: QueryList<VtsSpaceItemLegacyComponent>;
   @ContentChildren(VtsSpaceItemDirective, { read: TemplateRef })
   items!: QueryList<TemplateRef<VtsSafeAny>>;
 
@@ -121,14 +132,24 @@ export class VtsSpaceComponent implements OnChanges, OnDestroy, AfterContentInit
         this.vtsPreset >= 0 && this.vtsPreset <= 10 ? this.vtsPreset : this.vtsPreset < 0 ? 0 : 10;
       numberSize = PRESET_SPACE_SIZE[preset.toString()];
     } else {
+      // numberSize = typeof this.vtsSize === 'string' ? SPACE_SIZE[this.vtsSize] : this.vtsSize;
       numberSize = this.vtsSize ?? 0;
     }
     this.spaceSize = numberSize / (!!this.vtsSplit ? 2 : 1);
+    if (this.vtsSpaceItemComponents) {
+      warnDeprecation(
+        '`vts-space-item` in `vts-space` will be removed in 12.0.0, please use `*vtsSpaceItem` instead.'
+      );
+      this.vtsSpaceItemComponents.forEach(item => {
+        item.setDirectionAndSize(this.vtsDirection, this.spaceSize!);
+      });
+    }
     this.cdr.markForCheck();
   }
 
   ngOnChanges(): void {
     this.updateSpaceItems();
+    // this.mergedAlign = this.vtsAlign === undefined && this.vtsDirection === 'horizontal' ? 'center' : this.vtsAlign;
   }
 
   ngOnDestroy(): void {
@@ -138,5 +159,8 @@ export class VtsSpaceComponent implements OnChanges, OnDestroy, AfterContentInit
 
   ngAfterContentInit(): void {
     this.updateSpaceItems();
+    this.vtsSpaceItemComponents.changes.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.updateSpaceItems();
+    });
   }
 }

@@ -3,6 +3,5 @@
     "lib": {
       "entryFile": "public-api.ts"
     }
-  },
-  "whitelistedNonPeerDependencies": ["tslib", "apexcharts"]
+  }
 }

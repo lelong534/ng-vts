@@ -8,4 +8,6 @@ export * from './result.component';
 export * from './result-cells';
 
 // Making these partial components not visible to users but comprehensible to ng-packagr.
-// export { VtsResult404Component as eVtsResult404Component } from './partial/404';
+export { VtsResultNotFoundComponent as ɵVtsResultNotFoundComponent } from './partial/not-found';
+export { VtsResultServerErrorComponent as ɵVtsResultServerErrorComponent } from './partial/server-error.component';
+export { VtsResultUnauthorizedComponent as ɵVtsResultUnauthorizedComponent } from './partial/unauthorized';
