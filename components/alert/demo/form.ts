@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'vts-demo-alert-icon',
+  selector: 'vts-demo-alert-form',
   template: `
     <vts-alert
       vtsType="success"
       vtsMessage="Success Tips"
       vtsDescription="Detailed description and advices about successful copywriting."
-      vtsCloseable
       vtsShowIcon
+      vtsForm
+      vtsCloseable 
     ></vts-alert>
     <vts-alert
       vtsType="info"
@@ -16,6 +17,7 @@ import { Component } from '@angular/core';
       vtsDescription="Additional description and informations about copywriting."
       vtsShowIcon
       vtsCloseable
+      vtsForm
     ></vts-alert>
     <vts-alert
       vtsType="warning"
@@ -23,6 +25,7 @@ import { Component } from '@angular/core';
       vtsDescription="This is a warning notice about copywriting."
       vtsCloseable
       vtsShowIcon
+      vtsForm
     ></vts-alert>
     <vts-alert
       vtsType="error"
@@ -30,6 +33,7 @@ import { Component } from '@angular/core';
       vtsDescription="This is an error message about copywriting."
       vtsCloseable
       vtsShowIcon
+      vtsForm
     ></vts-alert>
   `,
   styles: [
@@ -40,4 +44,4 @@ import { Component } from '@angular/core';
     `
   ]
 })
-export class VtsDemoAlertIconComponent {}
+export class VtsDemoAlertFormComponent {}

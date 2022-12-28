@@ -37,7 +37,7 @@ export class VtsDemoNotificationPlacementComponent {
     this.notification.blank(
       'Notification Title',
       'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-      { vtsPlacement: position }
+      { vtsPlacement: position, vtsDuration: 0 }
     );
   }
 
