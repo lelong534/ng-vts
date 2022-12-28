@@ -7,12 +7,13 @@ import { BidiModule } from '@angular/cdk/bidi';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { VtsSpaceItemLegacyComponent } from './space-item.component';
 import { VtsSpaceItemDirective } from './space-item.directive';
 import { VtsSpaceComponent } from './space.component';
 
 @NgModule({
-  declarations: [VtsSpaceComponent, VtsSpaceItemDirective],
-  exports: [VtsSpaceComponent, VtsSpaceItemDirective],
+  declarations: [VtsSpaceComponent, VtsSpaceItemLegacyComponent, VtsSpaceItemDirective],
+  exports: [VtsSpaceComponent, VtsSpaceItemLegacyComponent, VtsSpaceItemDirective],
   imports: [BidiModule, CommonModule]
 })
 export class VtsSpaceModule {}

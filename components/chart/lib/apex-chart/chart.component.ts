@@ -31,8 +31,8 @@ import {
   VtsChartYAxis
 } from '../../typings';
 import { asapScheduler } from 'rxjs';
-// @ts-ignore
-import VtsCharts from 'apexcharts/dist/apexcharts.esm';
+
+import VtsCharts from 'apexcharts';
 
 @Component({
   selector: 'apx-chart',

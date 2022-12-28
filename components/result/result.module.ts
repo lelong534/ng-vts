@@ -12,44 +12,33 @@ import { VtsIconModule } from '@ui-vts/ng-vts/icon';
 
 import {
   VtsResultContentDirective,
-  VtsResultActionDirective,
+  VtsResultExtraDirective,
   VtsResultIconDirective,
   VtsResultSubtitleDirective,
   VtsResultTitleDirective
 } from './result-cells';
 import { VtsResultComponent } from './result.component';
 
-import { VtsResult403Component } from './partial/403';
-import { VtsResult404Component } from './partial/404';
-import { VtsResult500Component } from './partial/500';
-import { VtsResultBadConnectionComponent } from './partial/bad-connection';
-import { VtsButtonModule } from '@ui-vts/ng-vts/button';
-import { VtsGridModule } from '@ui-vts/ng-vts/grid';
+import { VtsResultNotFoundComponent } from './partial/not-found';
+import { VtsResultServerErrorComponent } from './partial/server-error.component';
+import { VtsResultUnauthorizedComponent } from './partial/unauthorized';
 
 const partial = [
-  VtsResult403Component,
-  VtsResult404Component,
-  VtsResult500Component,
-  VtsResultBadConnectionComponent
+  VtsResultNotFoundComponent,
+  VtsResultServerErrorComponent,
+  VtsResultUnauthorizedComponent
 ];
 
 const cellDirectives = [
   VtsResultContentDirective,
-  VtsResultActionDirective,
+  VtsResultExtraDirective,
   VtsResultIconDirective,
   VtsResultSubtitleDirective,
   VtsResultTitleDirective
 ];
 
 @NgModule({
-  imports: [
-    BidiModule,
-    CommonModule,
-    VtsOutletModule,
-    VtsIconModule,
-    VtsButtonModule,
-    VtsGridModule
-  ],
+  imports: [BidiModule, CommonModule, VtsOutletModule, VtsIconModule],
   declarations: [VtsResultComponent, ...cellDirectives, ...partial],
   exports: [VtsResultComponent, ...cellDirectives]
 })
