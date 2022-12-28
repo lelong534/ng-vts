@@ -1,42 +1,25 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef, AfterContentInit, TemplateRef, QueryList, ContentChildren, Directive } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 
-
-@Directive({
-    selector: '[vtsTemplate]',
-})
-export class VtsTemplate {
-    @Input() type: string = '';
-
-    @Input('vtstemplate') name: string = '';
-
-    constructor(public template: TemplateRef<any>) {}
-
-    getType(): string {
-        return this.name;
-    }
-}
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     selector: 'vts-inplace',
-    exportAs: 'vtsInplaceComponent',
-    // styleUrls: ['./inplace.css'],
     template: `
-        <div [ngClass]="{'vts-inplace': true }" [ngStyle]="style" [class]="styleClass">
-            <div class="vts-inplace-display" (click)="onActivateClick($event)" (keydown)="onKeydown($event)" *ngIf="!active">
+        <div>
+            <div class="vts-inplace-display" (click)="onActivateClick($event)" (keydown)="onKeydown($event)" *ngIf="!active" tabindex="1">
                 <ng-content select="[vtsInplaceDisplay]"></ng-content>
-                <ng-container *ngTemplateOutlet="displayTemplate"></ng-container>
             </div>
-            <div class="vts-inplace-content" *ngIf="active">
-                <ng-content select="[vtsInplaceContent]"></ng-content>
-                <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
-                <button vts-button vtsType="primary" (click)="onDeactivateClick($event)" *ngIf="closable"><i vts-icon vtsType="Close"></i></button>
+            <div class="vts-inplace-content" *ngIf="active" >
+                <div style="display: flex">
+                    <ng-content select="[vtsInplaceContent]"></ng-content>
+                    <button vts-button vtsType="primary" (click)="onDeactivateClick($event)" *ngIf="closable" tabindex="1"><i vts-icon vtsType="Close"></i></button>
+                </div>
             </div>
         </div>
     `,
 })
-export class VtsInplaceComponent implements AfterContentInit {
+export class VtsInplaceComponent {
     @Input() active: boolean = false;
 
     @Input() closable: boolean = true;
@@ -49,33 +32,14 @@ export class VtsInplaceComponent implements AfterContentInit {
 
     @Input() styleClass: string = '';
 
-    @ContentChildren(VtsTemplate) templates!: QueryList<any>;
-
     @Output() onActivate: EventEmitter<any> = new EventEmitter();
 
     @Output() onDeactivate: EventEmitter<any> = new EventEmitter();
 
     hover: boolean = true;
 
-    displayTemplate: TemplateRef<any> | null = null;
-
-    contentTemplate: TemplateRef<any> | null = null;
 
     constructor(public cd: ChangeDetectorRef) {}
-
-    ngAfterContentInit() {
-        this.templates.forEach((item) => {
-            switch (item.getType()) {
-                case 'display':
-                    this.displayTemplate = item.template;
-                    break;
-
-                case 'content':
-                    this.contentTemplate = item.template;
-                    break;
-            }
-        });
-    }
 
     onActivateClick(event: Event | undefined) {
         if (!this.preventClick) this.activate(event);
@@ -90,7 +54,7 @@ export class VtsInplaceComponent implements AfterContentInit {
             this.active = true;
             this.onActivate.emit(event);
             this.cd.markForCheck();
-        }
+        } 
     }
 
     deactivate(event?: Event) {
@@ -103,7 +67,8 @@ export class VtsInplaceComponent implements AfterContentInit {
     }
 
     onKeydown(event: KeyboardEvent) {
-        if (event.key === 'ENTER') {
+        if (event.key === 'Enter') {
+            
             this.activate(event);
             event.preventDefault();
         }

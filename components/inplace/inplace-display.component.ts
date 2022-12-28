@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 
 @Component({
-    selector: 'vts-inplace-display',
-    exportAs: 'vtsInpaceDisplay',
+    selector: 'vts-inplaceDisplay',
+    exportAs: 'vtsInplaceDisplay',
     template: '<ng-content></ng-content>',
 })
 export class VtsInplaceDisplayComponent {}
