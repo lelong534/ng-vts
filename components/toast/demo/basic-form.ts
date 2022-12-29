@@ -25,7 +25,7 @@ export class VtsDemoToastBasicFormComponent {
 
   createBasicToast(): void {
     this.toast
-      .create('success',
+      .create('info',
         'Toast Title',
         'This is the content of the toast. This is the content of the toast. This is the content of the toast.',
         false,

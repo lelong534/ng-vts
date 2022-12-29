@@ -54,7 +54,6 @@ The parameters that are set by the `options` support are as follows:
 | vtsStyle | Custom inline style | `object` |
 | vtsClass | Custom CSS class | `object` |
 | vtsData | Anything that would be used as template context | `any` |
-| vtsCloseIcon | Custom close icon | `TemplateRef<void> \| string` |
 
 Methods for destruction are also provided:
 

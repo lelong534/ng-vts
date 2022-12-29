@@ -35,24 +35,27 @@ import { VtsToastData } from './typings';
       (mouseleave)="onLeave()"
     >
       <ng-container [ngSwitch]="instance.type">
-        <vts-alert *ngSwitchCase="'success'" vtsType="success" [vtsMessage]="instance.title" [vtsDescription]="instance.content" [vtsShowIcon]="instance.showIcon" [vtsForm]="instance.form"></vts-alert>
-        <vts-alert *ngSwitchCase="'info'" vtsType="info" [vtsMessage]="instance.title" [vtsDescription]="instance.content" [vtsShowIcon]="instance.showIcon" [vtsForm]="instance.form"></vts-alert>
-        <vts-alert *ngSwitchCase="'warning'" vtsType="warning" [vtsMessage]="instance.title" [vtsDescription]="instance.content" [vtsShowIcon]="instance.showIcon" [vtsForm]="instance.form"></vts-alert>
-        <vts-alert *ngSwitchCase="'error'" vtsType="error" [vtsMessage]="instance.title" [vtsDescription]="instance.content" [vtsShowIcon]="instance.showIcon" [vtsForm]="instance.form"></vts-alert>
-        <vts-alert *ngSwitchDefault vtsType="info" [vtsMessage]="instance.title" [vtsDescription]="instance.content" [vtsShowIcon]="instance.showIcon" [vtsForm]="instance.form"></vts-alert>
+        <vts-alert *ngSwitchCase="'success'" vtsType="success" 
+          [vtsMessage]="instance.title" [vtsDescription]="instance.content" 
+          [vtsShowIcon]="instance.showIcon" [vtsForm]="instance.form" vtsCloseable>
+        </vts-alert>
+          <vts-alert *ngSwitchCase="'info'" vtsType="info" 
+          [vtsMessage]="instance.title" [vtsDescription]="instance.content" 
+          [vtsShowIcon]="instance.showIcon" [vtsForm]="instance.form" vtsCloseable>
+        </vts-alert>
+        <vts-alert *ngSwitchCase="'warning'" vtsType="warning" 
+          [vtsMessage]="instance.title" [vtsDescription]="instance.content" 
+          [vtsShowIcon]="instance.showIcon" [vtsForm]="instance.form" vtsCloseable>
+        </vts-alert>
+        <vts-alert *ngSwitchCase="'error'" vtsType="error" 
+          [vtsMessage]="instance.title" [vtsDescription]="instance.content" 
+          [vtsShowIcon]="instance.showIcon" [vtsForm]="instance.form" vtsCloseable>
+        </vts-alert>
+        <vts-alert *ngSwitchDefault vtsType="info" 
+          [vtsMessage]="instance.title" [vtsDescription]="instance.content" 
+          [vtsShowIcon]="instance.showIcon" [vtsForm]="instance.form" vtsCloseable>
+        </vts-alert>
       </ng-container>
-      <a tabindex="0" class="vts-toast-notice-close" (click)="close()">
-        <span class="vts-toast-notice-close-x">
-          <ng-container *ngIf="instance.options?.vtsCloseIcon; else iconTpl">
-            <ng-container *vtsStringTemplateOutlet="instance.options?.vtsCloseIcon; let closeIcon">
-              <i vts-icon [vtsType]="closeIcon"></i>
-            </ng-container>
-          </ng-container>
-          <ng-template #iconTpl>
-            <i vts-icon vtsType="Close" class="vts-toast-close-icon"></i>
-          </ng-template>
-        </span>
-      </a>
     </div>
   `
 })
