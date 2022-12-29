@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'vts-demo-carousel-indicator',
+  selector: 'vts-demo-carousel-multiple',
   template: `
     <vts-carousel 
       [vtsDots]="enableDot"
       [vtsNavigation]="navigation"  
+      [vtsItems]="items"
     >
       <div vts-carousel-content *ngFor="let index of array">
         <h3>{{ index }}</h3>
@@ -31,8 +32,9 @@ import { Component } from '@angular/core';
     `
   ]
 })
-export class VtsDemoCarouselIndicatorComponent {
+export class VtsDemoCarouselMultipleComponent {
   array = [1, 2, 3, 4];
   enableDot = true;
   navigation = true;
+  items = 3;
 }

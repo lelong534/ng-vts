@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
   selector: 'vts-demo-carousel-slide-only',
   template: `
     <vts-carousel 
-      vtsAutoPlay 
     >
       <div vts-carousel-content *ngFor="let index of array">
         <h3>{{ index }}</h3>

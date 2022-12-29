@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'vts-demo-carousel-autoplay',
   template: `
-    <vts-carousel vtsAutoPlay>
+    <vts-carousel [vtsRtl]="rtl">
       <div vts-carousel-content *ngFor="let index of array">
         <h3>{{ index }}</h3>
       </div>
@@ -29,4 +29,5 @@ import { Component } from '@angular/core';
 })
 export class VtsDemoCarouselAutoplayComponent {
   array = [1, 2, 3, 4];
+  rtl = false;
 }

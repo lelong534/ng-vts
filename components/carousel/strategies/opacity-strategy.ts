@@ -11,12 +11,12 @@ import { VtsCarouselContentDirective } from '../carousel-content.directive';
 import { VtsCarouselBaseStrategy } from './base-strategy';
 
 export class VtsCarouselOpacityStrategy extends VtsCarouselBaseStrategy {
-  withCarouselContents(contents: QueryList<VtsCarouselContentDirective> | null): void {
-    super.withCarouselContents(contents);
+  withCarouselContents(contents: QueryList<VtsCarouselContentDirective> | null, items: number): void {
+    super.withCarouselContents(contents, items);
 
     if (this.contents) {
       //this.slickTrackEl.style.width = `${this.length * this.unitWidth * 3}px`;
-      this.slickTrackEl.style.width = `${this.length * this.unitWidth}px`;
+      this.slickTrackEl.style.width = `${this.length * (this.unitWidth + 10)}px`;
 
       this.contents.forEach((content: VtsCarouselContentDirective, i: number) => {
         this.renderer.setStyle(
@@ -26,7 +26,7 @@ export class VtsCarouselOpacityStrategy extends VtsCarouselBaseStrategy {
         );
         this.renderer.setStyle(content.el, 'position', 'relative');
         this.renderer.setStyle(content.el, 'width', `${this.unitWidth}px`);
-        this.renderer.setStyle(content.el, 'left', `${-this.unitWidth * i}px`);
+        this.renderer.setStyle(content.el, 'left', `${-(this.unitWidth + 10) * i}px`);
         this.renderer.setStyle(content.el, 'transition', [
           'opacity 500ms ease 0s',
           'visibility 500ms ease 0s'

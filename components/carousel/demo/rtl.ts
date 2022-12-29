@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'vts-demo-carousel-indicator',
+  selector: 'vts-demo-carousel-rtl',
   template: `
     <vts-carousel 
-      [vtsDots]="enableDot"
-      [vtsNavigation]="navigation"  
-    >
+     
+     >
       <div vts-carousel-content *ngFor="let index of array">
         <h3>{{ index }}</h3>
       </div>
@@ -27,12 +26,10 @@ import { Component } from '@angular/core';
         color: #fff;
         margin-bottom: 0;
       }
-
     `
   ]
 })
-export class VtsDemoCarouselIndicatorComponent {
+export class VtsDemoCarouselRtlComponent {
   array = [1, 2, 3, 4];
-  enableDot = true;
-  navigation = true;
+  rtl = false;
 }

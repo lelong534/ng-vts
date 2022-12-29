@@ -119,6 +119,8 @@ export class VtsCarouselComponent
   static ngAcceptInputType_vtsAutoPlay: BooleanInput;
   static ngAcceptInputType_vtsAutoPlaySpeed: NumberInput;
   static ngAcceptInputType_vtsTransitionSpeed: NumberInput;
+  static ngAcceptInputType_vtsRtl: BooleanInput;
+  static ngAcceptInputType_vtsItems: NumberInput;
 
   @ContentChildren(VtsCarouselContentDirective)
   carouselContents!: QueryList<VtsCarouselContentDirective>;
@@ -134,6 +136,8 @@ export class VtsCarouselComponent
   @Input() @WithConfig() @InputNumber() vtsAutoPlaySpeed: number = 3000;
   @Input() @InputNumber() vtsTransitionSpeed = 500;
   @Input() @WithConfig() @InputBoolean() vtsNavigation: boolean = false;
+  @Input() @WithConfig() @InputBoolean() vtsRtl: boolean = true;
+  @Input() @WithConfig() @InputNumber() vtsItems: number = 1;
 
   /**
    * this property is passed directly to an VtsCarouselBaseStrategy
@@ -168,7 +172,7 @@ export class VtsCarouselComponent
   strategy?: VtsCarouselBaseStrategy;
   vertical = false;
   transitionInProgress: number | null = null;
-  dir: Direction = 'ltr';
+  dir: Direction = 'rtl';
 
   private destroy$ = new Subject<void>();
   private gestureRect: ClientRect | null = null;
@@ -300,7 +304,7 @@ export class VtsCarouselComponent
       const to = (index + length) % length;
       this.isTransiting = true;
       this.vtsBeforeChange.emit({ from, to });
-      this.strategy!.switch(this.activeIndex, index).subscribe(() => {
+      this.strategy!.switch(this.activeIndex, index, this.vtsItems).subscribe(() => {
         this.scheduleNextTransition();
         this.vtsAfterChange.emit(index);
         this.isTransiting = false;
@@ -339,7 +343,10 @@ export class VtsCarouselComponent
     this.clearScheduledTransition();
     if (this.vtsAutoPlay && this.vtsAutoPlaySpeed > 0 && this.platform.isBrowser) {
       this.transitionInProgress = setTimeout(() => {
-        this.goTo(this.activeIndex + 1);
+        if (this.vtsRtl)
+          this.goTo(this.activeIndex + 1);
+        else 
+          this.goTo(this.activeIndex - 1);
       }, this.vtsAutoPlaySpeed);
     }
   }
@@ -405,7 +412,7 @@ export class VtsCarouselComponent
 
   layout(): void {
     if (this.strategy) {
-      this.strategy.withCarouselContents(this.carouselContents);
+      this.strategy.withCarouselContents(this.carouselContents, this.vtsItems);
     }
   }
 }

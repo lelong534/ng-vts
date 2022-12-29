@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
   selector: 'vts-demo-carousel-control',
   template: `
     <vts-carousel 
-      vtsAutoPlay 
       [vtsNavigation]="navigation"  
     >
       <div vts-carousel-content *ngFor="let index of array">
