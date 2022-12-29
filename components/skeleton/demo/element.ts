@@ -73,7 +73,14 @@ import {
         </vts-radio-group>
       </div>
     </div>
-  `
+  `,
+  styles: [
+    `
+      .vts-radio-button-wrapper {
+        width: max-content
+      }
+    `
+  ]
 })
 export class VtsDemoSkeletonElementComponent {
   buttonActive = false;
