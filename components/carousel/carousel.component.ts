@@ -121,6 +121,7 @@ export class VtsCarouselComponent
   static ngAcceptInputType_vtsTransitionSpeed: NumberInput;
   static ngAcceptInputType_vtsRtl: BooleanInput;
   static ngAcceptInputType_vtsItems: NumberInput;
+  static ngAcceptInputType_vtsSlideMargin: NumberInput;
 
   @ContentChildren(VtsCarouselContentDirective)
   carouselContents!: QueryList<VtsCarouselContentDirective>;
@@ -138,6 +139,7 @@ export class VtsCarouselComponent
   @Input() @WithConfig() @InputBoolean() vtsNavigation: boolean = false;
   @Input() @WithConfig() @InputBoolean() vtsRtl: boolean = true;
   @Input() @WithConfig() @InputNumber() vtsItems: number = 1;
+  @Input() @WithConfig() @InputNumber() vtsSlideMargin: number = 10;
 
   /**
    * this property is passed directly to an VtsCarouselBaseStrategy
@@ -215,6 +217,16 @@ export class VtsCarouselComponent
   ngAfterViewInit(): void {
     this.slickListEl = this.slickList!.nativeElement;
     this.slickTrackEl = this.slickTrack!.nativeElement;
+    var slickItem = this.slickTrack!.nativeElement.querySelectorAll(".slick-slide");
+    let isMultipleCarousel = this.vtsItems > 1;
+
+    if (isMultipleCarousel) {
+      for (let i = 0; i < slickItem.length; i++) {
+        var itemCloneRight = slickItem[i].cloneNode(true);
+        itemCloneRight.classList.add("clone-right");
+        this.slickTrackEl.append(itemCloneRight);
+      }
+    }
 
     this.carouselContents.changes.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.markContentActive(0);
@@ -304,7 +316,7 @@ export class VtsCarouselComponent
       const to = (index + length) % length;
       this.isTransiting = true;
       this.vtsBeforeChange.emit({ from, to });
-      this.strategy!.switch(this.activeIndex, index, this.vtsItems).subscribe(() => {
+      this.strategy!.switch(this.activeIndex, index, this.vtsItems, this.vtsSlideMargin).subscribe(() => {
         this.scheduleNextTransition();
         this.vtsAfterChange.emit(index);
         this.isTransiting = false;
@@ -412,7 +424,19 @@ export class VtsCarouselComponent
 
   layout(): void {
     if (this.strategy) {
-      this.strategy.withCarouselContents(this.carouselContents, this.vtsItems);
+      this.strategy.withCarouselContents(this.carouselContents, this.vtsItems, this.vtsSlideMargin);
+      
+      var slickSlideWidth = this.slickTrack!.nativeElement.querySelector(".slick-slide").getBoundingClientRect().width;
+      var slickCloneRight = this.slickTrack!.nativeElement.querySelectorAll(".clone-right");
+      for (let i = 0; i < slickCloneRight.length; i++) {
+        slickCloneRight[i].style.width = slickSlideWidth + "px";
+        slickCloneRight[i].style.position = "relative";
+      }
+
+      var slickSlideAll = this.slickTrack!.nativeElement.querySelectorAll(".slick-slide");
+      for (let i = 0; i < slickSlideAll.length; i++) {
+        slickSlideAll[i].style.marginRight = this.vtsSlideMargin + "px";
+      }
     }
   }
 }

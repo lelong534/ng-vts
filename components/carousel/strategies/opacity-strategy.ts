@@ -11,12 +11,14 @@ import { VtsCarouselContentDirective } from '../carousel-content.directive';
 import { VtsCarouselBaseStrategy } from './base-strategy';
 
 export class VtsCarouselOpacityStrategy extends VtsCarouselBaseStrategy {
-  withCarouselContents(contents: QueryList<VtsCarouselContentDirective> | null, items: number): void {
-    super.withCarouselContents(contents, items);
+  withCarouselContents(contents: QueryList<VtsCarouselContentDirective> | null, items: number, slideMargin: number): void {
+    super.withCarouselContents(contents, items, slideMargin);
 
     if (this.contents) {
-      //this.slickTrackEl.style.width = `${this.length * this.unitWidth * 3}px`;
-      this.slickTrackEl.style.width = `${this.length * (this.unitWidth + 10)}px`;
+      if (items > 1)
+        this.renderer.setStyle(this.slickTrackEl, 'width', `${this.length * 2 * (this.unitWidth + slideMargin)}px`);
+      else 
+        this.renderer.setStyle(this.slickTrackEl, 'width', `${this.length * (this.unitWidth + slideMargin)}px`);
 
       this.contents.forEach((content: VtsCarouselContentDirective, i: number) => {
         this.renderer.setStyle(
@@ -26,7 +28,7 @@ export class VtsCarouselOpacityStrategy extends VtsCarouselBaseStrategy {
         );
         this.renderer.setStyle(content.el, 'position', 'relative');
         this.renderer.setStyle(content.el, 'width', `${this.unitWidth}px`);
-        this.renderer.setStyle(content.el, 'left', `${-(this.unitWidth + 10) * i}px`);
+        this.renderer.setStyle(content.el, 'left', `${-(this.unitWidth + slideMargin) * i}px`);
         this.renderer.setStyle(content.el, 'transition', [
           'opacity 500ms ease 0s',
           'visibility 500ms ease 0s'

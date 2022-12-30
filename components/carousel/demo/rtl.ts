@@ -4,8 +4,9 @@ import { Component } from '@angular/core';
   selector: 'vts-demo-carousel-rtl',
   template: `
     <vts-carousel 
-     
-     >
+      vtsAutoPlay
+      [vtsRtl]="rtl"
+    >
       <div vts-carousel-content *ngFor="let index of array">
         <h3>{{ index }}</h3>
       </div>

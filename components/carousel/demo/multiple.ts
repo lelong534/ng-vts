@@ -4,9 +4,11 @@ import { Component } from '@angular/core';
   selector: 'vts-demo-carousel-multiple',
   template: `
     <vts-carousel 
+      vtsAutoPlay
       [vtsDots]="enableDot"
       [vtsNavigation]="navigation"  
       [vtsItems]="items"
+      [vtsSlideMargin]="slideMargin"
     >
       <div vts-carousel-content *ngFor="let index of array">
         <h3>{{ index }}</h3>
@@ -33,8 +35,9 @@ import { Component } from '@angular/core';
   ]
 })
 export class VtsDemoCarouselMultipleComponent {
-  array = [1, 2, 3, 4];
+  array = [1, 2, 3, 4, 5, 6, 7];
   enableDot = true;
   navigation = true;
-  items = 3;
+  items = 4;
+  slideMargin = 30;
 }

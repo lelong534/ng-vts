@@ -49,7 +49,7 @@ export abstract class VtsCarouselBaseStrategy<T = VtsSafeAny> {
    * @param contents
    * 
    */
-  withCarouselContents(contents: QueryList<VtsCarouselContentDirective> | null, items: number): void {
+  withCarouselContents(contents: QueryList<VtsCarouselContentDirective> | null, items: number, slideMargin: number): void {
     const carousel = this.carouselComponent!;
     this.slickListEl = carousel.slickListEl;
     this.slickTrackEl = carousel.slickTrackEl;
@@ -58,7 +58,7 @@ export abstract class VtsCarouselBaseStrategy<T = VtsSafeAny> {
 
     if (this.platform.isBrowser) {
       const rect = carousel.el.getBoundingClientRect();
-      this.unitWidth = (rect.width - (items - 1) * 10) / items;
+      this.unitWidth = (rect.width - (items - 1) * slideMargin) / items;
       this.unitHeight = rect.height;
     } else {
       // Since we cannot call getBoundingClientRect in server, we just hide all items except for the first one.
@@ -75,7 +75,7 @@ export abstract class VtsCarouselBaseStrategy<T = VtsSafeAny> {
   /**
    * Trigger transition.
    */
-  abstract switch(_f: number, _t: number, _items: number): Observable<void>;
+  abstract switch(_f: number, _t: number, _items: number, _slideMargin: number): Observable<void>;
 
   /**
    * When user drag the carousel component.
