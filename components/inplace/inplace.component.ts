@@ -1,13 +1,19 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { InputBoolean } from '../core/util';
+import { BooleanInput } from '@ui-vts/ng-vts/core/types';
 
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     selector: 'vts-inplace',
+    host: {
+        // '[class.vts-inplace-display-disabled]': `disabled`,
+    },
     template: `
-        <div>
-            <div class="vts-inplace-display" (click)="onActivateClick($event)" (keydown)="onKeydown($event)" *ngIf="!active" tabindex="1">
+        <div [ngClass]="{ 'vts-inplace': true }">
+            <div class="vts-inplace-display" (click)="onActivateClick($event)" (keydown)="onKeydown($event)" *ngIf="!active" tabindex="1" [ngClass]="{ 'vts-inplace-disabled': disabled }">
+                <i vts-icon [vtsType]="vtsIcon" *ngIf="vtsIcon"></i>    
                 <ng-content select="[vtsInplaceDisplay]"></ng-content>
             </div>
             <div class="vts-inplace-content" *ngIf="active" >
@@ -20,17 +26,23 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEn
     `,
 })
 export class VtsInplaceComponent {
-    @Input() active: boolean = false;
+  
+    static ngAcceptInputType_disabled: BooleanInput;
+    static ngAcceptInputType_active: BooleanInput;
+
+    @Input() @InputBoolean() active: boolean = false;
 
     @Input() closable: boolean = true;
 
-    @Input() disabled: boolean = true;
+    @Input() @InputBoolean() disabled: boolean = false;
 
     @Input() preventClick: boolean = false;
 
     @Input() style: any;
 
     @Input() styleClass: string = '';
+    
+    @Input() vtsIcon: string | null = null;
 
     @Output() onActivate: EventEmitter<any> = new EventEmitter();
 
