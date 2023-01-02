@@ -5,6 +5,7 @@
 
 import { Platform } from '@angular/cdk/platform';
 import { ChangeDetectorRef, QueryList, Renderer2 } from '@angular/core';
+import { CarouselConfig } from '@ui-vts/ng-vts/core/config';
 import { Observable, Subject } from 'rxjs';
 
 import { VtsCarouselContentDirective } from '../carousel-content.directive';
@@ -39,8 +40,8 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
     this.renderer.setStyle(this.slickTrackEl, 'transform', null);
   }
 
-  withCarouselContents(contents: QueryList<VtsCarouselContentDirective> | null, items: number, slideMargin: number): void {
-    super.withCarouselContents(contents, items, slideMargin);
+  withCarouselContents(contents: QueryList<VtsCarouselContentDirective> | null, config: CarouselConfig): void {
+    super.withCarouselContents(contents, config);
 
     const carousel = this.carouselComponent!;
     const activeIndex = carousel.activeIndex;
@@ -62,10 +63,10 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
         );
       } else {
         this.renderer.setStyle(this.slickTrackEl, 'height', `${this.unitHeight}px`);
-        if (items > 1)
-          this.renderer.setStyle(this.slickTrackEl, 'width', `${this.length * 2 * (this.unitWidth + slideMargin)}px`);
+        if (config.vtsItems > 1)
+          this.renderer.setStyle(this.slickTrackEl, 'width', `${this.length * 2 * (this.unitWidth + config.vtsSlideMargin)}px`);
         else 
-          this.renderer.setStyle(this.slickTrackEl, 'width', `${this.length * (this.unitWidth + slideMargin)}px`);
+          this.renderer.setStyle(this.slickTrackEl, 'width', `${this.length * (this.unitWidth + config.vtsSlideMargin)}px`);
         this.renderer.setStyle(
           this.slickTrackEl,
           'transform',

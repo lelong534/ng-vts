@@ -5,6 +5,7 @@
 
 import { Platform } from '@angular/cdk/platform';
 import { ChangeDetectorRef, QueryList, Renderer2 } from '@angular/core';
+import { CarouselConfig } from '@ui-vts/ng-vts/core/config';
 import { VtsSafeAny } from '@ui-vts/ng-vts/core/types';
 import { Observable } from 'rxjs';
 
@@ -49,7 +50,7 @@ export abstract class VtsCarouselBaseStrategy<T = VtsSafeAny> {
    * @param contents
    * 
    */
-  withCarouselContents(contents: QueryList<VtsCarouselContentDirective> | null, items: number, slideMargin: number): void {
+  withCarouselContents(contents: QueryList<VtsCarouselContentDirective> | null, config: CarouselConfig): void {
     const carousel = this.carouselComponent!;
     this.slickListEl = carousel.slickListEl;
     this.slickTrackEl = carousel.slickTrackEl;
@@ -58,7 +59,7 @@ export abstract class VtsCarouselBaseStrategy<T = VtsSafeAny> {
 
     if (this.platform.isBrowser) {
       const rect = carousel.el.getBoundingClientRect();
-      this.unitWidth = (rect.width - (items - 1) * slideMargin) / items;
+      this.unitWidth = (rect.width - (config.vtsItems - 1) * config.vtsSlideMargin) / config.vtsItems;
       this.unitHeight = rect.height;
     } else {
       // Since we cannot call getBoundingClientRect in server, we just hide all items except for the first one.

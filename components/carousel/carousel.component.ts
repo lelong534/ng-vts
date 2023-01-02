@@ -29,7 +29,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { VtsConfigKey, VtsConfigService, WithConfig } from '@ui-vts/ng-vts/core/config';
+import { CarouselConfig, VtsConfigKey, VtsConfigService, WithConfig } from '@ui-vts/ng-vts/core/config';
 import { VtsDragService, VtsResizeService } from '@ui-vts/ng-vts/core/services';
 import { BooleanInput, NumberInput, VtsSafeAny } from '@ui-vts/ng-vts/core/types';
 import { InputBoolean, InputNumber } from '@ui-vts/ng-vts/core/util';
@@ -136,8 +136,8 @@ export class VtsCarouselComponent
   @Input() @WithConfig() @InputBoolean() vtsAutoPlay: boolean = false;
   @Input() @WithConfig() @InputNumber() vtsAutoPlaySpeed: number = 3000;
   @Input() @InputNumber() vtsTransitionSpeed = 500;
-  @Input() @WithConfig() @InputBoolean() vtsNavigation: boolean = false;
-  @Input() @WithConfig() @InputBoolean() vtsRtl: boolean = true;
+  @Input() @InputBoolean() vtsNavigation: boolean = false;
+  @Input() @InputBoolean() vtsRtl: boolean = true;
   @Input() @WithConfig() @InputNumber() vtsItems: number = 1;
   @Input() @WithConfig() @InputNumber() vtsSlideMargin: number = 10;
 
@@ -175,6 +175,7 @@ export class VtsCarouselComponent
   vertical = false;
   transitionInProgress: number | null = null;
   dir: Direction = 'rtl';
+  config!: CarouselConfig;
 
   private destroy$ = new Subject<void>();
   private gestureRect: ClientRect | null = null;
@@ -202,6 +203,11 @@ export class VtsCarouselComponent
   }
   ngOnInit(): void {
     this.dir = this.directionality.value;
+
+    this.config = {
+      vtsItems : this.vtsItems,
+      vtsSlideMargin: this.vtsSlideMargin
+    }
 
     this.directionality.change?.pipe(takeUntil(this.destroy$)).subscribe((direction: Direction) => {
       this.dir = direction;
@@ -424,7 +430,7 @@ export class VtsCarouselComponent
 
   layout(): void {
     if (this.strategy) {
-      this.strategy.withCarouselContents(this.carouselContents, this.vtsItems, this.vtsSlideMargin);
+      this.strategy.withCarouselContents(this.carouselContents, this.config);
       
       var slickSlideWidth = this.slickTrack!.nativeElement.querySelector(".slick-slide").getBoundingClientRect().width;
       var slickCloneRight = this.slickTrack!.nativeElement.querySelectorAll(".clone-right");
