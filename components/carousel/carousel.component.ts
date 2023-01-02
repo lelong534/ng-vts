@@ -404,7 +404,7 @@ export class VtsCarouselComponent
         delta => {
           this.pointerDelta = delta;
           this.isDragging = true;
-          this.strategy?.dragging(this.pointerDelta);
+          this.strategy?.dragging(this.pointerDelta, this.config);
         },
         () => {},
         () => {

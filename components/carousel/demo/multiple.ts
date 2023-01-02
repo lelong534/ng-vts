@@ -35,9 +35,9 @@ import { Component } from '@angular/core';
   ]
 })
 export class VtsDemoCarouselMultipleComponent {
-  array = [1, 2, 3, 4, 5, 6, 7];
+  array = [1, 2, 3, 4];
   enableDot = true;
   navigation = true;
-  items = 4;
+  items = 3;
   slideMargin = 30;
 }

@@ -82,7 +82,7 @@ export abstract class VtsCarouselBaseStrategy<T = VtsSafeAny> {
    * When user drag the carousel component.
    * @optional
    */
-  dragging(_vector: PointerVector): void {}
+  dragging(_vector: PointerVector, _config: CarouselConfig): void {}
 
   /**
    * Destroy a scroll strategy.

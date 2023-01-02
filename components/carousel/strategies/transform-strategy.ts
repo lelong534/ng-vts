@@ -127,7 +127,7 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
     return complete$.asObservable();
   }
 
-  dragging(_vector: PointerVector): void {
+  dragging(_vector: PointerVector, _config: CarouselConfig): void {
     if (this.isTransitioning) {
       return;
     }
@@ -150,9 +150,9 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
     } else {
       if (!this.isDragging && this.length > 2) {
         if (activeIndex === this.maxIndex) {
-          this.prepareHorizontalContext(true);
+          this.prepareHorizontalContext(true, _config);
         } else if (activeIndex === 0) {
-          this.prepareHorizontalContext(false);
+          this.prepareHorizontalContext(false, _config);
         }
       }
       this.renderer.setStyle(
@@ -189,11 +189,11 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
     const { from: f, to: t } = this.getFromToInBoundary(_f, _t);
     const needToAdjust = this.length > 2 && _t !== t;
     if (needToAdjust) {
-      this.prepareHorizontalContext(t < f);
+      this.prepareHorizontalContext(t < f, _config);
       this.renderer.setStyle(
         this.slickTrackEl,
         'transform',
-        `translate3d(${-_t * this.unitWidth}px, 0, 0)`
+        `translate3d(${-_t * (this.unitWidth + _config.vtsSlideMargin)}px, 0, 0)`
       );
     } else {
       this.renderer.setStyle(
@@ -214,15 +214,13 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
     }
   }
 
-  private prepareHorizontalContext(lastToFirst: boolean): void {
+  private prepareHorizontalContext(lastToFirst: boolean, config: CarouselConfig): void {
     if (lastToFirst) {
-      this.renderer.setStyle(this.firstEl, 'left', `${this.length * (this.unitWidth + 10)}px`);
-      setTimeout(() => {
-        this.renderer.setStyle(this.firstEl, 'left', null);
-      }, this.carouselComponent!.vtsTransitionSpeed)
+      this.renderer.setStyle(this.firstEl, 'left', `${this.length * (this.unitWidth + config.vtsSlideMargin)}px`);
       this.renderer.setStyle(this.lastEl, 'left', null);
     } else {
       this.renderer.setStyle(this.firstEl, 'left', null);
+      this.renderer.setStyle(this.lastEl, 'left', `${-(this.unitWidth + config.vtsSlideMargin) * this.length}px`);
     }
   }
 }
