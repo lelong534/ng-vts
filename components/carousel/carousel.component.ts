@@ -322,7 +322,7 @@ export class VtsCarouselComponent
       const to = (index + length) % length;
       this.isTransiting = true;
       this.vtsBeforeChange.emit({ from, to });
-      this.strategy!.switch(this.activeIndex, index, this.vtsItems, this.vtsSlideMargin).subscribe(() => {
+      this.strategy!.switch(this.activeIndex, index, this.config).subscribe(() => {
         this.scheduleNextTransition();
         this.vtsAfterChange.emit(index);
         this.isTransiting = false;

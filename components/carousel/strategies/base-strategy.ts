@@ -76,7 +76,7 @@ export abstract class VtsCarouselBaseStrategy<T = VtsSafeAny> {
   /**
    * Trigger transition.
    */
-  abstract switch(_f: number, _t: number, _items: number, _slideMargin: number): Observable<void>;
+  abstract switch(_f: number, _t: number, _config: CarouselConfig): Observable<void>;
 
   /**
    * When user drag the carousel component.
