@@ -36,6 +36,7 @@ import { VtsCarouselModule } from '@ui-vts/ng-vts/carousel';
 | `[vtsRtl]` | Whether to scroll from right to left | `boolean` | `true` | ✅ |
 | `[vtsItems]` | Number of slides is shown | `boolean` | 1 | ✅ |
 | `[vtsSlideMargin]` | Margin between slides | `number` | 10 | ✅ |
+| `[vtsVertical]` | Whether to show slides vertical | `boolean` | `false` | ✅ |
 | `(vtsAfterChange)` | Callback function called after the current index changes | `EventEmitter<number>` | - |
 | `(vtsBeforeChange)` | Callback function called before the current index changes | `EventEmitter{ from: number; to: number }>` | - |
 

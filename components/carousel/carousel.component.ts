@@ -122,6 +122,7 @@ export class VtsCarouselComponent
   static ngAcceptInputType_vtsRtl: BooleanInput;
   static ngAcceptInputType_vtsItems: NumberInput;
   static ngAcceptInputType_vtsSlideMargin: NumberInput;
+  static ngAcceptInputType_vtsVertical: BooleanInput;
 
   @ContentChildren(VtsCarouselContentDirective)
   carouselContents!: QueryList<VtsCarouselContentDirective>;
@@ -138,6 +139,7 @@ export class VtsCarouselComponent
   @Input() @InputNumber() vtsTransitionSpeed = 500;
   @Input() @InputBoolean() vtsNavigation: boolean = false;
   @Input() @InputBoolean() vtsRtl: boolean = true;
+  @Input() @InputBoolean() vtsVertical: boolean = false;
   @Input() @WithConfig() @InputNumber() vtsItems: number = 1;
   @Input() @WithConfig() @InputNumber() vtsSlideMargin: number = 10;
 
@@ -206,7 +208,8 @@ export class VtsCarouselComponent
 
     this.config = {
       vtsItems : this.vtsItems,
-      vtsSlideMargin: this.vtsSlideMargin
+      vtsSlideMargin: this.vtsSlideMargin,
+      vtsVertical: this.vtsVertical
     }
 
     this.directionality.change?.pipe(takeUntil(this.destroy$)).subscribe((direction: Direction) => {
@@ -432,16 +435,24 @@ export class VtsCarouselComponent
     if (this.strategy) {
       this.strategy.withCarouselContents(this.carouselContents, this.config);
       
-      var slickSlideWidth = this.slickTrack!.nativeElement.querySelector(".slick-slide").getBoundingClientRect().width;
+      var rect = this.slickTrack!.nativeElement.querySelector(".slick-slide").getBoundingClientRect();
+      var slickSlideWidth = rect.width;
+      var slickSlideHeight = rect.height;
       var slickCloneRight = this.slickTrack!.nativeElement.querySelectorAll(".clone-right");
+      var slickSlideAll = this.slickTrack!.nativeElement.querySelectorAll(".slick-slide");
       for (let i = 0; i < slickCloneRight.length; i++) {
         slickCloneRight[i].style.width = slickSlideWidth + "px";
+        slickCloneRight[i].style.height = slickSlideHeight + "px";
         slickCloneRight[i].style.position = "relative";
       }
 
-      var slickSlideAll = this.slickTrack!.nativeElement.querySelectorAll(".slick-slide");
+      
       for (let i = 0; i < slickSlideAll.length; i++) {
-        slickSlideAll[i].style.marginRight = this.vtsSlideMargin + "px";
+        if (this.config.vtsVertical) {
+          slickSlideAll[i].style.marginBottom = this.vtsSlideMargin + "px";
+        } else {
+          slickSlideAll[i].style.marginRight = this.vtsSlideMargin + "px";
+        }
       }
     }
   }

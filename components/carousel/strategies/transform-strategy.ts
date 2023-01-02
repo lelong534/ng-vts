@@ -21,9 +21,9 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
   private isDragging = false;
   private isTransitioning = false;
 
-  private get vertical(): boolean {
-    return this.carouselComponent!.vertical;
-  }
+  // private get vertical(): boolean {
+  //   return this.carouselComponent!.vertical;
+  // }
 
   constructor(
     carouselComponent: VtsCarouselComponentAsSource,
@@ -48,17 +48,21 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
 
     // We only do when we are in browser.
     if (this.platform.isBrowser && this.contents.length) {
-      this.renderer.setStyle(this.slickListEl, 'height', `${this.unitHeight}px`);
 
-      if (this.vertical) {
+      if (config.vtsVertical) {
+        this.renderer.setStyle(this.slickListEl, 'height', `${(this.unitHeight + config.vtsSlideMargin) * config.vtsItems - config.vtsSlideMargin}px`);
         this.renderer.setStyle(this.slickTrackEl, 'width', `${this.unitWidth}px`);
-        this.renderer.setStyle(this.slickTrackEl, 'height', `${this.length * this.unitHeight}px`);
+        if (config.vtsItems > 1)
+          this.renderer.setStyle(this.slickTrackEl, 'height', `${this.length * 2 * (this.unitHeight + config.vtsSlideMargin)}px`);
+        else 
+          this.renderer.setStyle(this.slickTrackEl, 'height', `${this.length * (this.unitHeight + config.vtsSlideMargin)}px`);
         this.renderer.setStyle(
           this.slickTrackEl,
           'transform',
           `translate3d(0, ${-activeIndex * this.unitHeight}px, 0)`
         );
       } else {
+        this.renderer.setStyle(this.slickListEl, 'height', `${this.unitHeight}px`);
         this.renderer.setStyle(this.slickTrackEl, 'height', `${this.unitHeight}px`);
         if (config.vtsItems > 1)
           this.renderer.setStyle(this.slickTrackEl, 'width', `${this.length * 2 * (this.unitWidth + config.vtsSlideMargin)}px`);
@@ -89,8 +93,8 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
       `transform ${this.carouselComponent!.vtsTransitionSpeed}ms ease`
     );
 
-    if (this.vertical) {
-      this.verticalTransform(_f, _t);
+    if (_config.vtsVertical) {
+      this.verticalTransform(_f, _t, _config);
     } else {
       this.horizontalTransform(_f, _t, _config);
     }
@@ -101,14 +105,14 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
     setTimeout(() => {
       this.renderer.setStyle(this.slickTrackEl, 'transition', null);
       this.contents.forEach((content: VtsCarouselContentDirective) => {
-        this.renderer.setStyle(content.el, this.vertical ? 'top' : 'left', null);
+        this.renderer.setStyle(content.el, _config.vtsVertical ? 'top' : 'left', null);
       });
 
-      if (this.vertical) {
+      if (_config.vtsVertical) {
         this.renderer.setStyle(
           this.slickTrackEl,
           'transform',
-          `translate3d(0, ${-t * this.unitHeight}px, 0)`
+          `translate3d(0, ${-t * (this.unitHeight + _config.vtsSlideMargin)}px, 0)`
         );
       } else {
         this.renderer.setStyle(
@@ -134,12 +138,12 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
 
     const activeIndex = this.carouselComponent!.activeIndex;
 
-    if (this.carouselComponent!.vertical) {
+    if (_config.vtsVertical) {
       if (!this.isDragging && this.length > 2) {
         if (activeIndex === this.maxIndex) {
-          this.prepareVerticalContext(true);
+          this.prepareVerticalContext(true, _config);
         } else if (activeIndex === 0) {
-          this.prepareVerticalContext(false);
+          this.prepareVerticalContext(false, _config);
         }
       }
       this.renderer.setStyle(
@@ -165,22 +169,22 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
     this.isDragging = true;
   }
 
-  private verticalTransform(_f: number, _t: number): void {
+  private verticalTransform(_f: number, _t: number, _config: CarouselConfig): void {
     const { from: f, to: t } = this.getFromToInBoundary(_f, _t);
     const needToAdjust = this.length > 2 && _t !== t;
 
     if (needToAdjust) {
-      this.prepareVerticalContext(t < f);
+      this.prepareVerticalContext(t < f, _config);
       this.renderer.setStyle(
         this.slickTrackEl,
         'transform',
-        `translate3d(0, ${-_t * this.unitHeight}px, 0)`
+        `translate3d(0, ${-_t * (this.unitHeight + _config.vtsSlideMargin)}px, 0)`
       );
     } else {
       this.renderer.setStyle(
         this.slickTrackEl,
         'transform',
-        `translate3d(0, ${-t * this.unitHeight}px, 0`
+        `translate3d(0, ${-t * (this.unitHeight + _config.vtsSlideMargin)}px, 0`
       );
     }
   }
@@ -204,13 +208,13 @@ export class VtsCarouselTransformStrategy extends VtsCarouselBaseStrategy<VtsCar
     }
   }
 
-  private prepareVerticalContext(lastToFirst: boolean): void {
+  private prepareVerticalContext(lastToFirst: boolean, config: CarouselConfig): void {
     if (lastToFirst) {
-      this.renderer.setStyle(this.firstEl, 'top', `${this.length * this.unitHeight}px`);
+      this.renderer.setStyle(this.firstEl, 'top', `${this.length * (this.unitHeight + config.vtsSlideMargin)}px`);
       this.renderer.setStyle(this.lastEl, 'top', null);
     } else {
       this.renderer.setStyle(this.firstEl, 'top', null);
-      this.renderer.setStyle(this.lastEl, 'top', `${-this.unitHeight * this.length}px`);
+      this.renderer.setStyle(this.lastEl, 'top', `${-(this.unitHeight + config.vtsSlideMargin) * this.length}px`);
     }
   }
 
