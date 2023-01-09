@@ -1,6 +1,6 @@
 ---
 category: Components
-type: Data Display
+type: Components
 title: Accordion
 cols: 1
 cover: https://gw.alipayobjects.com/zos/alicdn/IxH16B9RD/Collapse.svg

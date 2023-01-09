@@ -20,6 +20,8 @@ import {
 
 export interface VtsConfig {
   affix?: AffixConfig;
+  accordion?: AccordionConfig;
+  accordionPanel?: AccordionPanelConfig;
   select?: SelectConfig;
   alert?: AlertConfig;
   anchor?: AnchorConfig;
@@ -28,6 +30,7 @@ export interface VtsConfig {
   badge?: BadgeConfig;
   button?: ButtonConfig;
   card?: CardConfig;
+  cardLayout?: CardLayoutConfig;
   carousel?: CarouselConfig;
   cascader?: CascaderConfig;
   codeEditor?: CodeEditorConfig;
@@ -67,8 +70,19 @@ export interface SelectConfig {
 }
 
 export interface AffixConfig {
-  vtsOffsetBottom?: number;
+  vtsOffsetBottom?: 'left' | 'right';
+  vtsFlush?: boolean;
+}
+
+export interface AccordionConfig {
+  vtsExpandIconPosition?: string;
   vtsOffsetTop?: number;
+}
+
+export interface AccordionPanelConfig {
+  vtsActive?: boolean;
+  vtsDisabled?: boolean;
+  vtsShowArrow?: boolean;
 }
 
 export interface AlertConfig {
@@ -120,6 +134,12 @@ export interface CardConfig {
   vtsHoverable?: boolean;
   vtsBordered?: boolean;
   vtsBorderless?: boolean;
+}
+
+export interface CardLayoutConfig {
+  vtsAlign?: 'left' | 'center' | 'right';
+  vtsCardLayout?: 'basic';
+  vtsType?: 'container' | 'avatar';
 }
 
 export interface CarouselConfig {

@@ -48,7 +48,7 @@ export class OnlineIdeService {
       title: 'NG-VTS',
       description: 'Ant Design of Angular',
       tags: ['NG-VTS', 'ng-vts', 'Ant Design', 'Angular', 'ng'],
-      template: this.template,
+      template: 'angular-cli',
       dependencies: this.dependencies,
       files: {
         'angular.json': `${JSON.stringify(angularJSON, null, 2)}`,

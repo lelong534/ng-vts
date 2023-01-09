@@ -15,7 +15,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { VtsConfigKey, VtsConfigService, WithConfig } from '@ui-vts/ng-vts/core/config';
-import { BooleanInput } from '@ui-vts/ng-vts/core/types';
+import { BooleanInput, VtsShapeSCType } from '@ui-vts/ng-vts/core/types';
 import { InputBoolean } from '@ui-vts/ng-vts/core/util';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -31,18 +31,24 @@ export type ImageStatusType = 'error' | 'loading' | 'normal';
   selector: 'img[vts-image]',
   exportAs: 'vtsImage',
   host: {
-    '(click)': 'onPreview()'
+    '(click)': 'onPreview()',
+    '[class.vts-image-square]': `vtsShape === 'square'`,
+    '[class.vts-image-circle]': `vtsShape === 'circle'`,
+    '[class.vts-image-thumbnail]': `vtsThumbnail`
   }
 })
 export class VtsImageDirective implements OnInit, OnChanges, OnDestroy {
   readonly _vtsModuleName: VtsConfigKey = VTS_CONFIG_MODULE_NAME;
 
   static ngAcceptInputType_vtsDisablePreview: BooleanInput;
+  static ngAcceptInputType_vtsThumbnail: BooleanInput;
 
   @Input() vtsSrc = '';
   @Input() @InputBoolean() @WithConfig() vtsDisablePreview: boolean = false;
   @Input() @WithConfig() vtsFallback: string | null = null;
   @Input() @WithConfig() vtsPlaceholder: string | null = null;
+  @Input() @InputBoolean() @WithConfig() vtsThumbnail: boolean = false;
+  @Input() @WithConfig() vtsShape: VtsShapeSCType | null = null;
 
   dir?: Direction;
   backLoadImage!: HTMLImageElement;

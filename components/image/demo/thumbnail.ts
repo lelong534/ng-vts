@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
       vts-image
       width="200px"
       height="200px"
-      vtsShape="rounded"
+      vtsShape="square"
       vtsThumbnail
       vtsSrc="https://avatars.githubusercontent.com/u/22736418"
       alt=""

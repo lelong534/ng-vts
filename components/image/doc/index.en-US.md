@@ -1,6 +1,6 @@
 ---
 category: Components
-type: Data Display
+type: Components
 title: Image
 cover: https://gw.alipayobjects.com/zos/antfincdn/D1dXz9PZqa/image.svg
 ---
